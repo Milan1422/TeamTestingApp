@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Milan1422/TeamTestingApp/issues"
   },
-  "homepage": "https://github.com/Milan1422/TeamTestingApp#readme"
+  "homepage": "https://github.com/Milan1422/TeamTestingApp#readme",
+  "dependencies": {
+    "inquirer": "^7.3.3"
+  }
 }

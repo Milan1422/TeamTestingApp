@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Milan1422/TeamTestingApp#readme",
   "dependencies": {
-    "inquirer": "^7.3.3"
+    "inquirer": "^7.3.3",
+    "jester": "^0.2.3"
   }
 }

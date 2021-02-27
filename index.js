@@ -4,8 +4,15 @@ const util = require('util');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
+const path = require('path');
 
-const writeFileAsync = util.promisify(fs.writeFile);
+const OUTPUT_DIR = path.resolve(__dirname, "dist");
+const outputPath = path.join(OUTPUT_DIR, "team.html");
+
+const render = require("./lib/htmlRenderer");
+const { resolve } = require("path");
+const { report } = require("process");
+
 
 // Prompts for manager
 function promptManager(){
@@ -147,15 +154,51 @@ function runManager(){
     })
 }
 
-runManager();
-// function to put generated file together
-async function init() {
-    try {
-        const data = await promptManager();
-        const readMeFile = mdFileTemplate(data);
-        await writeFileAsync("index1.html", readMeFile);
-    } catch (err) {
-        console.log(err)
-    }
+// engineer prompts rendering
+function runEngineer(){
+    promptEngineer().then(function(data){
+        const engineer = new Engineer(data.name, data.id, data.email, data.github)
+        if(data.another == "Engineer"){
+            team.push(engineer);
+            runEngineer();
+        }else if(data.another == "Intern"){
+            team.push(engineer);
+            runIntern();
+        }else if(data.another == "None"){
+            team.push(engineer);
+            
+            
+            fs.writeFile("./dist/team.html", render(team),function(err){
+                if(err) throw err;
+                console.log("Writing team file...")
+            });
+            return;
+        }
+    })
 }
-init()
+
+// intern prompts rendering
+function runIntern(){
+    promptIntern().then(function(data){
+       const intern = new Intern(data.name, data.id, data.email, data.school)
+        if(data.another == "Engineer"){
+            team.push(intern);
+            runEngineer();
+        }else if(data.another == "Intern"){
+            team.push(intern);
+            runIntern();
+        }else if(data.another == "None"){
+            team.push(intern);
+            
+            
+            fs.writeFile("./dist/team.html", render(team),function(err){
+                if(err) throw err;
+                console.log("Writing team file...")
+            });
+            return;
+        }
+    })
+}
+
+
+runManager();

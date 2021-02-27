@@ -120,10 +120,38 @@ function promptIntern(){
     ])
 }
 
+// team array
+const team = [];
+
+// push manager data
+function runManager(){
+    promptManager().then(function(data){
+        const manager = new Manager(data.name, data.id, data.email, data.officeNumber)
+
+        if(data.another == "Engineer"){
+            team.push(manager);
+            runEngineer();
+        }else if(data.another == "Intern"){
+            team.push(manager);
+            runIntern();
+        }else if(data.another == "None"){
+            team.push(manager);
+            
+            
+            fs.writeFile("./dist/team.html", render(team),function(err){
+                if(err) throw err;
+                console.log("Writing team file...")
+            });
+            return;
+        }
+    })
+}
+
+runManager();
 // function to put generated file together
 async function init() {
     try {
-        const data = await promptUser();
+        const data = await promptManager();
         const readMeFile = mdFileTemplate(data);
         await writeFileAsync("index1.html", readMeFile);
     } catch (err) {

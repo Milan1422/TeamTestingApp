@@ -1,9 +1,9 @@
 const inquirer = require("inquirer");
 const fs = require('fs');
 const util = require('util');
-const Manager = require('./lib/Manager')
-const Engineer = require('./lib/Engineer')
-cosnt Intern = require('./lib/Intern')
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
 
 const writeFileAsync = util.promisify(fs.writeFile);
 
@@ -74,6 +74,42 @@ function promptEngineer(){
             type: "input",
             name: "github",
             message: "Engineer GitHub Name:"
+        },
+        {
+            type: "list",
+            name: "another",
+            message: "Would you like to add another engineer or intern?",
+            choices: ["Engineer","Intern","None"]
+        }
+    ])
+}
+
+// prompts for intern
+function promptIntern(){
+    return inquirer.prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "Intern Name:"
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "Intern ID:",
+            validate: function (value) {
+                var valid = !isNaN(parseFloat(value));
+                return valid || 'Please enter a number';
+              },
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "Intern Email:"
+        },
+        {
+            type: "input",
+            name: "school",
+            message: "Intern School:"
         },
         {
             type: "list",

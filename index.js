@@ -48,6 +48,41 @@ function promptManager(){
     ])
 }
 
+// Prompts for Engineer
+function promptEngineer(){
+    return inquirer.prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "Engineer Name:"
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "Engineer ID:",
+            validate: function (value) {
+                var valid = !isNaN(parseFloat(value));
+                return valid || 'Please enter a number';
+              },
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "Engineer Email:"
+        },
+        {
+            type: "input",
+            name: "github",
+            message: "Engineer GitHub Name:"
+        },
+        {
+            type: "list",
+            name: "another",
+            message: "Would you like to add another engineer or intern?",
+            choices: ["Engineer","Intern","None"]
+        }
+    ])
+}
 
 // function to put generated file together
 async function init() {
